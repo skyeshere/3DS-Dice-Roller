@@ -1,0 +1,45 @@
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+BreakBeforeBraces: Allman
+
+ColumnLimit: 100
+
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+SortIncludes: true
+IncludeBlocks: Preserve
+
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+
+IndentAccessModifiers: false
+
+BreakConstructorInitializers: BeforeComma
+
+ReflowComments: false
+
+IndentPPDirectives: None
+
+BinPackArguments: false
+BinPackParameters: false
+
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1
+
+NamespaceIndentation: None
+
+DerivePointerAlignment: false
+FixNamespaceComments: true

@@ -1,0 +1,18 @@
+{
+  "cmake.preferPresets": true,
+  "cmake.configureArgs": [
+    "-DCMAKE_TOOLCHAIN_FILE=${env:DEVKITPRO}/cmake/3DS.cmake"
+  ],
+  "editor.formatOnSave": true,
+  "C_Cpp.clang_format_style": "file",
+  "[cpp]": {
+    "editor.defaultFormatter": "xaver.clang-format",
+    "editor.formatOnSave": true
+  },
+  "[c]": {
+    "editor.defaultFormatter": "xaver.clang-format",
+    "editor.formatOnSave": true
+  },
+  "clang-format.executable": "clang-format",
+  "clang-format.style": "file"
+}

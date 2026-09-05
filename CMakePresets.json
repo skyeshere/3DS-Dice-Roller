@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "vendor": {
+    "devkitpro": "1.0"
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default (DevKit Pro)",
+      "description": "Default build configuration using DevKit Pro cross-compiler",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{DEVKITPRO}/cmake/3DS.cmake"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default",
+      "jobs": 0
+    }
+  ]
+}
