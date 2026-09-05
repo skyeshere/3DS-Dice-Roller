@@ -2,37 +2,32 @@
 #include <cstdio>
 #include <cstdlib>
 #include <string>
+#include <map>
 
-//i just think this is funny tbh, 0 -> 2**8.  this saves memory surely!!
-unsigned short int range = 0;
 
-//possible add an ASCII esque rolling animation for D20 rolls
-void dTwentyAnim()
+// map <int index, int range>
+/*                                 D4      D6      D8      D10     D12      D20     */
+std::map<int, int> die_types = { {0, 4}, {1, 6}, {2, 8}, {3, 10}, {4, 12}, {5, 20} };
+int max_current = die_types.size() - 1; 
+int min_current = 0;
+
+int current_die = 0;
+
+
+void drawTopScreen(PrintConsole screen, int selected)
 {
-    /*
-        possible run of this method would be:
-        clearconsole ->
-        print frame 1 ->
-        clear console ->
-        print frame 2 ->
-        clear console ->
-        print result
-
-        Maybe use bottom screen?
-    */
-}
-
-//possible add an ASCII esque rolling animatio for D6 rolls
-void dSixAnim()
-{
-
-}
-
-void initPrint()
-{
+    consoleSelect(&screen);
+    consoleClear();
     printf("Dice Roller!\n");
-    printf("Press X for D6 or Y for D20\n");
+    printf("Current Die: D%d\n", die_types.at(selected));
     printf("Press A to roll!\n");
+}
+
+void drawBotScreen(PrintConsole screen, int result)
+{
+	consoleSelect(&screen);
+	consoleClear();
+	printf("You rolled: %d\n", result);
 }
 
 void printChoice(int r)
@@ -52,58 +47,52 @@ int main()
     consoleInit(GFX_TOP, &topScreen);
     consoleInit(GFX_BOTTOM, &bottomScreen);
 
-    //print init top screen content
-    consoleSelect(&topScreen);
-    initPrint();
-
-
-    //select to print to bottom screen
-    consoleSelect(&bottomScreen);
-    printf("Press START to exit at any time\n");
-
-    consoleSelect(&topScreen);
+    drawTopScreen(topScreen, current_die);
 
     while (aptMainLoop())
     {
         hidScanInput();
 
+        /* exit program */
         if (hidKeysDown() & KEY_START)
             break;
 
-        if (hidKeysDown() & KEY_X)
+        /* selecting die */
+        if (hidKeysDown() & KEY_DUP)
         {
-            //option choice roll D6
-            range = 5;
-            printChoice(range);
+            //roll around to min of the selction
+            if (current_die == max_current)
+            {
+                current_die = min_current;
+            } else
+            {
+                current_die++;
+            }
+
+            drawTopScreen(topScreen, current_die);
         }
 
-        if (hidKeysDown() & KEY_Y)
+        if (hidKeysDown() & KEY_DDOWN)
         {
-            //option choice roll D20
-            range = 19;
-            printChoice(range);
+            //roll around to max of the selction
+            if (current_die == min_current)
+            {
+                current_die = max_current;
+            } else 
+            {
+                current_die--;
+            }
+
+            drawTopScreen(topScreen, current_die);
         }
 
+        /* Roll the die */
         if (hidKeysDown() & KEY_A)
         {
-            if (range != 0) //if a range is selected...
-            {
-                unsigned short int random = (std::rand() % range) + 1; //random generated 0 - 19 add one to make it 1 - 20 (D20) //another funny unsigned short int :3
-                printf("you rolled: %d\n", random);
-            }else //else a range isnt selected
-            {
-                printf("Please choose a die to roll!\n");
-            }
-            
+        	short int random = (std::rand() % die_types.at(current_die)) + 1;
+        	drawBotScreen(bottomScreen, random);
         }
 
-        if (hidKeysDown() & KEY_L)
-        {
-            //clear screen debug
-            consoleClear();
-            consoleSelect(&topScreen);
-            initPrint();
-        }
 
         gfxFlushBuffers();
         gfxSwapBuffers();
