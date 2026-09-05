@@ -1,12 +1,23 @@
 #include <3ds.h>
 #include <cstdio>
+#include <random>
 
 int main()
 {
     gfxInitDefault();
-    consoleInit(GFX_TOP, NULL);
 
-    printf("Hello World\n");
+    PrintConsole topScreen, bottomScreen;
+
+    //initialise both screensn for printing
+    consoleInit(GFX_TOP, &topScreen);
+    consoleInit(GFX_BOTTOM, &bottomScreen);
+
+    //currently selected screen
+    consoleSelect(&topScreen);
+
+    printf("Dice Roller!\n");
+
+    consoleSelect(&bottomScreen);
     printf("Press START to exit\n");
 
     while (aptMainLoop())
