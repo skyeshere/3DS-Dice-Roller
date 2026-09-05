@@ -1,10 +1,13 @@
-# 3DS C++ Template (devkitPro + CMake) For Linux
+# 3DS Dice Roller
 
-Minimal template for building Nintendo 3DS homebrew using C++ and devkitPro.
-Outputs a `.3dsx` file ready for the Homebrew Launcher.
+Roll a variety of die using C++'s <random>.
+
+This project is based on a CMake template from: https://github.com/TheVolpeDev/3DS-DevKitPro-Cmake-Template
 
 > [!IMPORTANT]
 > This template was made & tested on Linux, it is specifically made to be used with Linux + VSCode (or compatible forks)
+
+This project was inspired by Defeat0f13's "RollTheDice-3DS" (https://defeatof13.github.io)
 
 ---
 
@@ -12,6 +15,7 @@ Outputs a `.3dsx` file ready for the Homebrew Launcher.
 
 - [devkitPro](https://devkitpro.org/) toolchain installed
 - `DEVKITPRO` environment variable set
+- A modded 3DS with the Homebrew Launcher
 
 Verify:
 
@@ -56,6 +60,14 @@ Copy the `.3dsx` file to your SD card:
 ```
 
 Then launch it via the Homebrew Launcher.
+
+Run via 3DSlink:
+
+```bash
+$DEVKITPRO/tools/bin/3dslink build/DiceRoller.3dsx -a [ip address]
+```
+Where [ip address] is the IP address given to you by the Homebrew Launcher when pressing Y.
+
 
 ---
 

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(DiceRoller LANGUAGES C CXX)
 
 set(APP_NAME "3DS D20 Roller" CACHE STRING "App name")
-set(APP_DESCRIPTION "Roll a D20 on your 3DS!" CACHE STRING "App description")
+set(APP_DESCRIPTION "Roll a D20, and more, on your 3DS!" CACHE STRING "App description")
 set(APP_AUTHOR "skyeshere" CACHE STRING "Author")
 
 set(DEVKITPRO $ENV{DEVKITPRO})
