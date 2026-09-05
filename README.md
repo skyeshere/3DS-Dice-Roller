@@ -1,6 +1,6 @@
 # 3DS Dice Roller
 
-Roll a variety of die using C++'s <random>.
+Roll a variety of die using C++'s std::rand() function.
 
 This project is based on a CMake template from: https://github.com/TheVolpeDev/3DS-DevKitPro-Cmake-Template
 
