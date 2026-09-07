@@ -4,22 +4,38 @@
 #include <string>
 #include <map>
 #include <cstring>
-// map <int index, int range>
-/*                                             D4      D6      D8      D10      D12      D20     */
-std::map<short int, short int> die_types = { {0, 4}, {1, 6}, {2, 8}, {3, 10}, {4, 12}, {5, 20} };
-short int max_current = die_types.size() - 1; 
-short int min_current = 0;
 
-short int current_die = 0;
+
+/*                             D4 D6 D8 D10 D12 D20     */
+const short int die_types[6] = {4, 6, 8, 10, 12, 20};
+const short int max_current = (sizeof(die_types) / sizeof(die_types[0])) - 1 ; //size of array taken like this because of array decay
+const short int min_current = 0;
+
+int current_die = 0;
 
 //draw selection to top screen
-void drawTopScreen(PrintConsole screen, int selected)
+void drawTopScreen(PrintConsole screen, int selected, bool debug)
 {
     consoleSelect(&screen);
     consoleClear(); //clear screen for new frame
     printf("\x1b[1;1HWelcome to the Dice Roller! Select with D-UP/DOWN\n\n");
-    printf("Current Die: D%d\n", die_types.at(selected));
+    printf("Current Die: D%d\n", die_types[selected]);
     printf("Press A to roll!\n");
+
+    if(debug)
+    {
+        printf("\n<-- DEBUG VARIABLE WATCH -->\n");
+
+        printf("die_types: {");
+        for (int i : die_types)
+        {
+            printf("%d, ", i);
+        }
+        printf("}\n");
+
+        printf("short int selected: %d\n", selected);
+        printf("max_current: %d\n", max_current);
+    }
 
     printf("\x1b[30;1HPress SELECT to exit");
 }
@@ -62,6 +78,9 @@ void drawBotScreen(PrintConsole screen, int result)
 int main()
 {
     gfxInitDefault();
+
+    bool debug_mode = false;
+
     srand(time(0));
 
     PrintConsole topScreen, bottomScreen;
@@ -70,8 +89,9 @@ int main()
     consoleInit(GFX_TOP, &topScreen);
     consoleInit(GFX_BOTTOM, &bottomScreen);
 
+
     //initial draw to top screen
-    drawTopScreen(topScreen, current_die);
+    drawTopScreen(topScreen, current_die, debug_mode);
 
     while (aptMainLoop())
     {
@@ -93,7 +113,7 @@ int main()
                 current_die++;
             }
 
-            drawTopScreen(topScreen, current_die);
+            drawTopScreen(topScreen, current_die, debug_mode);
         }
 
         if (hidKeysDown() & KEY_DDOWN)
@@ -107,14 +127,26 @@ int main()
                 current_die--;
             }
 
-            drawTopScreen(topScreen, current_die);
+            drawTopScreen(topScreen, current_die, debug_mode);
         }
 
         /* Roll the die */
         if (hidKeysDown() & KEY_A)
         {
-        	short int random = (std::rand() % die_types.at(current_die)) + 1;
+        	short int random = (std::rand() % die_types[current_die]) + 1;
         	drawBotScreen(bottomScreen, random);
+        }
+
+        if (hidKeysDown() & KEY_ZL)
+        {
+            if(debug_mode)
+            {
+                debug_mode = false;
+            }
+            else
+            {
+                debug_mode = true;
+            }
         }
 
         gfxFlushBuffers();
