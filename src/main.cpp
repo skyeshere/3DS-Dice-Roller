@@ -33,7 +33,7 @@ void drawTopScreen(PrintConsole screen, int selected, bool debug)
         }
         printf("}\n");
 
-        printf("short int selected: %d\n", selected);
+        printf("selected: %d\n", selected);
         printf("max_current: %d\n", max_current);
     }
 
